@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useProfileContext } from '../../contexts/ProfileContext';
 import '../../styles/ProfileDisplay.css';
 
 const ProfileDisplay: React.FC = () => {
-    const cachedData = localStorage.getItem('profileData');
-    const [profileData, setProfileData] = useState(cachedData ? JSON.parse(cachedData) : null);
+    const { profileData, setProfileData } = useProfileContext();
+    const navigate = useNavigate();
+
+    const handleDeleteProfile = () => {
+        localStorage.removeItem('profileData');
+        setProfileData(null);
+    };
+
+    const handleEditProfile = () => {
+        navigate('/profile-form');
+    };
 
     if (!profileData) {
         return <p className="noProfileMessage">No profile found. Please create one.</p>;
@@ -16,6 +27,15 @@ const ProfileDisplay: React.FC = () => {
                 <p><span>Name:</span> {profileData.name}</p>
                 <p><span>Email:</span> {profileData.email}</p>
                 <p><span>Age:</span> {profileData.age ? profileData.age : 'Not Provided'}</p>
+            </div>
+
+            <div className="profileActions">
+                <button className="editButton" onClick={handleEditProfile}>
+                    Edit
+                </button>
+                <button className="deleteButton" onClick={handleDeleteProfile}>
+                    Delete
+                </button>
             </div>
         </div>
     );
