@@ -1,6 +1,14 @@
 import "../../styles/ProfileForm.css";
 
-const UserInput = ({ label, value, onChange, inputType, placeholder }) => {
+interface Props {
+  label: string;
+  value: string | number | undefined;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputType: string;
+  placeholder?: string;
+}
+
+const UserInput: React.FC<Props> = ({ label, value, onChange, inputType, placeholder }) => {
   return (
     <div className="inputContainer">
       <label className="label">{label}</label>
